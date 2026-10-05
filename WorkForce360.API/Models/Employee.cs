@@ -25,5 +25,7 @@ namespace WorkForce360.API.Models
         public string Status { get; set; }
 
         public decimal Salary { get; set; }
+
+        public string Address { get; set; }
     }
 }
