@@ -1,5 +1,29 @@
 # HANDOVER
 
+## Latest session: 2026-10-29 (publishing local updates)
+
+### Done
+- Committed the guarded `RestoreMissingUsersTable` migration and related documentation as local commit `0ec0a7e`.
+- Ran `dotnet test .\WorkForce360.API.Tests\WorkForce360.API.Tests.csproj --no-restore`; all 13 tests passed.
+- Kept the modified `WorkForce360.API/appsettings.json`, generated `bin/obj` deletions, and staged `workfroce360` deletion out of the commit.
+
+### In progress
+- Publishing the local branch `feature/employee-validation` is pending; both command-line and GitKraken push attempts failed because GitHub credentials are unavailable.
+
+### Broken or risky
+- The branch contains local commits not confirmed on the remote.
+- `WorkForce360.API/appsettings.json` has an uncommitted connection-string change and must not be published without review.
+- Existing staged generated-file and duplicate-entry deletions remain untouched.
+- The test run reported existing NU1902 and NU1903 advisories for `System.Security.Cryptography.Pkcs` 9.0.11.
+
+### Next
+- Configure GitHub authentication, then push `feature/employee-validation`.
+- Keep the connection-string change and generated/deletion changes excluded unless separately reviewed and approved.
+
+### Verification
+- `dotnet test .\WorkForce360.API.Tests\WorkForce360.API.Tests.csproj --no-restore` passed 13 tests with 0 failures.
+- `git push origin HEAD:refs/heads/feature/employee-validation` failed because Git could not obtain a password; the GitKraken push also failed because it could not obtain a GitHub username in a non-interactive environment.
+
 ## Latest session: 2026-10-27 (database startup issue)
 
 ### Done
