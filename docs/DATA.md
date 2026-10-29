@@ -4,7 +4,7 @@
 
 `WorkForce360.API/Models/Employee.cs` defines an `Employee` row with integer `Id`, employee code, names, email, phone, joining date, department, designation, employment type, status, decimal salary, and address. Salary is stored as `decimal(18,2)`.
 
-`WorkForce360.API/Models/AppUser.cs` defines application users with an email, password hash, role, and creation timestamp. `WorkForce360DbContext` exposes the `Employees` and `Users` sets. EF Core migrations describe the SQL Server schema; migration `AddAppUsers` creates the `Users` table and enforces unique user email.
+`WorkForce360.API/Models/AppUser.cs` defines application users with an email, password hash, role, and creation timestamp. `WorkForce360DbContext` exposes the `Employees` and `Users` sets. EF Core migrations describe the SQL Server schema; migration `AddAppUsers` creates the `Users` table and enforces unique user email. `RestoreMissingUsersTable` restores that table and index if the database records the original migration as applied but the objects are missing.
 
 ## Access patterns
 

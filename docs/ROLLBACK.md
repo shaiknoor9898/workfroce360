@@ -10,6 +10,7 @@
 - Never apply a migration to a shared or production database without an explicit backup and reviewed rollback plan.
 - EF Core migrations may have `Down` methods, but a down migration can still lose data. Inspect the exact migration and database state first.
 - Prefer a tested forward-fix or restore plan when rollback could destroy employee data.
+- `RestoreMissingUsersTable` intentionally has a no-op `Down`: the `Users` table belongs to the earlier `AddAppUsers` migration, so rolling back the repair must not delete user accounts.
 
 ## Recovery checks
 

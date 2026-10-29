@@ -51,3 +51,13 @@ Record meaningful project decisions here before implementation where practical. 
 - Reason: Isolated tests give quick feedback for password hashing, JWT creation, role rules, and validation without changing the local database or depending on a running API.
 - Tradeoff: These tests do not prove routing, authorization middleware, or EF Core persistence behavior.
 - Revisit if: A test database or in-memory integration test strategy is approved.
+
+## D-006: Repair a missing Users table with a guarded forward migration
+
+- Date: 2026-10-27
+- Context: The confirmed local `WorkForce360` database recorded `AddAppUsers` in `__EFMigrationsHistory`, but the `Users` table and its unique email index were absent. EF Core therefore treated the table-creation migration as already applied.
+- Options: (1) delete the migration-history row and rerun the original migration; (2) create the table manually without recording a repair; (3) add a forward migration that restores the table and index only when missing.
+- Chosen: (3), using `RestoreMissingUsersTable`. Its `Up` operation checks for the table and index before creating them. Its `Down` operation intentionally does not drop `Users`.
+- Reason: This preserves migration history, repairs the confirmed inconsistent schema, and avoids dropping user accounts if the repair is rolled back.
+- Tradeoff: The repair assumes the existing `Users` table, if present, has the expected columns; it does not repair other forms of schema drift. Rolling back this repair leaves the restored table in place because it is owned by the earlier `AddAppUsers` migration.
+- Revisit if: The user schema changes or other databases show a different cause for the missing table.
